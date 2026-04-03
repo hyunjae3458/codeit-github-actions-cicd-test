@@ -84,10 +84,12 @@ jobs:
       - name: 새로운 작업 정의 등록
         id: register_task_definition
         run: |
-          TAST_DEF_ARN=$(aws ecs register-task-definition \
+          TASK_DEF_ARN=$(aws ecs register-task-definition \
             --cli-input-json file://task-def.rendered.json \
-            --query 'taskDefinition.taskDefinitonArn' \
+            --query 'taskDefinition.taskDefinitionArn' \
             --output text)
+          
+          echo "TASK_DEF_ARN=$TASK_DEF_ARN" >> $GITHUB_ENV
 
       # 12) ECS 서비스 업데이트 (새 작업 정의 강제 배포)
       - name: ECS 서비스 업데이트
